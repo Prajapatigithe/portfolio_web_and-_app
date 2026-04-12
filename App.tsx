@@ -1,43 +1,69 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+  type Theme as NavigationTheme,
+} from '@react-navigation/native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { StatusBar, StyleSheet } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ThemeProvider, useAppTheme } from './src/context/ThemeContext';
+import { AppNavigator } from './src/navigation/AppNavigator';
+import { SplashScreen } from './src/screens/SplashScreen';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+function AppRoot() {
+  const { colors, resolvedTheme } = useAppTheme();
+  const [showSplash, setShowSplash] = useState(true);
+  const handleSplashFinish = useCallback(() => setShowSplash(false), []);
+
+  const navigationTheme = useMemo((): NavigationTheme => {
+    const base = resolvedTheme === 'dark' ? DarkTheme : DefaultTheme;
+    return {
+      ...base,
+      colors: {
+        ...base.colors,
+        primary: colors.primary,
+        background: colors.background,
+        card: colors.tabBar,
+        text: colors.text,
+        border: colors.border,
+        notification: colors.accent,
+      },
+    };
+  }, [colors, resolvedTheme]);
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <>
+      <StatusBar
+        barStyle={resolvedTheme === 'dark' ? 'light-content' : 'dark-content'}
+        backgroundColor={colors.background}
+      />
+      <NavigationContainer theme={navigationTheme}>
+        {showSplash ? (
+          <SplashScreen onFinish={handleSplashFinish} />
+        ) : (
+          <AppNavigator />
+        )}
+      </NavigationContainer>
+    </>
   );
 }
 
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
+function App() {
   return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
+    <GestureHandlerRootView style={styles.root}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <AppRoot />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
   },
 });

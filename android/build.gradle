@@ -1,3 +1,4 @@
+// android/build.gradle
 buildscript {
     ext {
         buildToolsVersion = "36.0.0"
@@ -9,12 +10,25 @@ buildscript {
     }
     repositories {
         google()
-        mavenCentral()
+        mavenCentral()               // Needed to fetch AsyncStorage
+        maven { url 'https://www.jitpack.io' }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle")
-        classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath("com.android.tools.build:gradle:8.1.1")
+        classpath("com.facebook.react:react-native-gradle-plugin:0.84.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.1")
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://www.jitpack.io' }
+        // AsyncStorage v3 ships storage-android AAR in the package (not on Maven Central)
+        maven {
+            url = uri("${rootDir}/../node_modules/@react-native-async-storage/async-storage/android/local_repo")
+        }
     }
 }
 
