@@ -3,6 +3,7 @@ import { useState, useRef } from 'react'
 import emailjs from '@emailjs/browser'
 import { contact } from '../../data/site'
 import { Card } from '../ui/Card'
+import { QRCodeCard } from '../ui/QRCodeCard'
 
 export function Contact() {
   const [status, setStatus] = useState<'idle' | 'sent' | 'error'>('idle')
@@ -15,11 +16,11 @@ export function Contact() {
 
     emailjs
       .sendForm(
-        'service_4bv8jy5',    
-        'template_j4owak5',    
+        'service_4bv8jy5',
+        'template_j4owak5',
         formRef.current,
         {
-          publicKey: '3YTnzKopcKieF2xb9', 
+          publicKey: '3YTnzKopcKieF2xb9',
         }
       )
       .then(() => {
@@ -28,7 +29,7 @@ export function Contact() {
         setTimeout(() => setStatus('idle'), 4000)
       })
       .catch((error) => {
-        console.log('EmailJS Error:', error) 
+        console.log('EmailJS Error:', error)
         setStatus('error')
       })
   }
@@ -121,6 +122,9 @@ export function Contact() {
               </ul>
             </Card>
           </motion.div>
+          <div className="mt-4 space-y-3 hover:text-indigo-800 justify-center">
+            <QRCodeCard />
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
