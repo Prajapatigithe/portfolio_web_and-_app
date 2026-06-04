@@ -60,4 +60,4 @@ export const contact = {
   github: 'https://github.com/Prajapatigithe',
 }
 
-export const resumeFile = '/ResumeAnkitKumar1.pdf'
+export const resumeFile = '/Resume.pdf'
