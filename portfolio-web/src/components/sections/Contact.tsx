@@ -9,9 +9,13 @@ import {
 } from 'lucide-react';
 import { contact, projectTypes, budgets } from '../../data/site';
 import { supabase } from '../../lib/supabase';
+const useWhatsApp =
+  import.meta.env.VITE_INQUIRY_CHANNEL !== 'supabase' || !supabase;
+
 export function Contact() {
+  const [whatsappUrl, setWhatsappUrl] = useState('');
   const [status, setStatus] = useState<
-    'idle' | 'sending' | 'success' | 'error'
+    'idle' | 'sending' | 'success' | 'error' | 'prepared'
   >('idle');
   const [error, setError] = useState('');
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -38,13 +42,28 @@ export function Contact() {
       setStatus('error');
       return;
     }
-    if (!supabase) {
-      setError(
-        'The inquiry form is not connected yet. Please email me or use WhatsApp to discuss your project.',
-      );
-      setStatus('error');
+    if (String(data.get('website') || '')) return;
+    if (useWhatsApp) {
+      const message = [
+        'Hi Ankit, I’d like to discuss a project.',
+        '',
+        `Name: ${payload.name}`,
+        `Email: ${payload.email}`,
+        `Company: ${payload.company || 'Not specified'}`,
+        `Project type: ${payload.project_type}`,
+        `Budget: ${payload.budget}`,
+        `Timeline: ${payload.timeline}`,
+        '',
+        'Project brief:',
+        payload.message,
+      ].join('\n');
+      const url = `${contact.whatsapp}?text=${encodeURIComponent(message)}`;
+      setWhatsappUrl(url);
+      setStatus('prepared');
+      window.open(url, '_blank', 'noopener,noreferrer');
       return;
     }
+    if (!supabase) return;
     setStatus('sending');
     try {
       const { error } = await supabase.rpc('submit_lead', {
@@ -101,7 +120,16 @@ export function Contact() {
             <span>A conversation first. No commitment required.</span>
           </div>
         </div>
-        <form className="inquiry-form" onSubmit={submit}>
+        <form
+          className="inquiry-form"
+          onSubmit={submit}
+          onChange={() => {
+            if (status !== 'sending') {
+              setStatus('idle');
+              setWhatsappUrl('');
+            }
+          }}
+        >
           <h3>
             Tell me about your project <ArrowUpRight size={20} />
           </h3>
@@ -199,13 +227,37 @@ export function Contact() {
           >
             {status === 'sending'
               ? 'Sending your inquiry…'
-              : 'Send Project Inquiry'}
+              : useWhatsApp
+                ? 'Continue on WhatsApp'
+                : 'Send Project Inquiry'}
             <ArrowUpRight size={18} />
           </button>
           <p className="privacy-note">
-            Your details are used only to respond to your project inquiry.
+            {useWhatsApp
+              ? 'Opens WhatsApp with your project details. Review the message and press Send to contact me.'
+              : 'Your details are used only to respond to your project inquiry.'}
           </p>
           <div aria-live="polite">
+            {status === 'prepared' && (
+              <div className="whatsapp-handoff" role="status">
+                <p>
+                  Your project message is ready. Review it in WhatsApp and press
+                  Send. Nothing has been sent yet.
+                </p>
+                <a
+                  className="text-link"
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open WhatsApp <ArrowUpRight size={16} />
+                </a>
+                <p className="handoff-note">
+                  If WhatsApp did not open, use the link above. Your form
+                  details are still here.
+                </p>
+              </div>
+            )}
             {status === 'success' && (
               <p className="success-message">
                 Thanks! Your project inquiry has been received. I’ll reply by

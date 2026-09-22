@@ -1864,3 +1864,183 @@ summary {
     transition: none !important;
   }
 }
+
+/* Browser autofill must stay legible in the dark inquiry form. */
+.inquiry-form input {
+  color-scheme: dark;
+}
+.inquiry-form input:autofill,
+.inquiry-form input:-webkit-autofill,
+.inquiry-form input:-webkit-autofill:hover,
+.inquiry-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #e0d7e8;
+  caret-color: #e0d7e8;
+  box-shadow: 0 0 0 1000px #100d16 inset;
+}
+.whatsapp-handoff {
+  margin-top: 20px;
+  padding: 17px;
+  border: 1px solid #3b6652;
+  background: #14251e;
+  border-radius: 8px;
+}
+.whatsapp-handoff p {
+  font-size: 12px;
+  color: #c3ddcc;
+  margin-bottom: 12px;
+}
+.whatsapp-handoff .text-link {
+  color: #b5edc9;
+}
+.whatsapp-handoff .handoff-note {
+  font-size: 10px;
+  margin: 12px 0 0;
+  color: #9bb6a6;
+}
+.project-visual.has-screenshot {
+  background: linear-gradient(135deg, #21162d, #39304b);
+}
+.project-visual.has-screenshot.green {
+  background: linear-gradient(135deg, #3c1c2b, #18382f);
+}
+.project-preview {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 46px 16px 24px;
+}
+.project-screenshot.composite {
+  width: 100%;
+}
+.project-screenshot.composite img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.project-visual.composite .project-screenshot {
+  transform: rotate(-3deg);
+  box-shadow: 0 18px 30px #0005;
+}
+.project-screenshot.mobile {
+  width: 220px;
+  flex-shrink: 0;
+  background: #fff;
+  border: 6px solid #25232c;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px #0006;
+}
+.project-screenshot.mobile img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.project-visual.mobile .project-preview {
+  align-items: start;
+}
+.project-visual.mobile .project-screenshot {
+  transform: rotate(7deg);
+  width: 210px;
+}
+.project-source-link {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  margin-top: 14px;
+  font-size: 11px;
+  color: #b8a3d1;
+}
+.project-content .stack-label,
+.stack-label {
+  font-size: 9px;
+  color: #9c89b1;
+  margin: 16px 0 7px;
+  min-height: 0;
+}
+.project-live-link {
+  margin-top: 22px;
+}
+.case-banner.has-screenshot.composite {
+  padding: 30px;
+}
+.case-banner.composite .project-screenshot {
+  max-width: 800px;
+}
+.case-banner.mobile .project-screenshot {
+  width: 280px;
+}
+.source-note {
+  margin-top: -20px;
+  margin-bottom: 36px;
+  max-width: 850px;
+}
+.source-note a {
+  color: #c2a4e9;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.screenshot-section {
+  margin-bottom: 55px;
+}
+.screenshot-section h2 {
+  font-size: 25px;
+}
+.screenshot-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.screenshot-gallery figure {
+  margin: 0;
+  width: min(280px, 100%);
+}
+.screenshot-gallery img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #51415f;
+  border-radius: 12px;
+}
+.screenshot-gallery figcaption {
+  font-size: 12px;
+  color: #b4a5c0;
+  margin-top: 12px;
+}
+@media (max-width: 800px) and (min-width: 561px) {
+  .project-visual.composite .project-preview {
+    padding-inline: 12px;
+  }
+}
+@media (max-width: 560px) {
+  .case-banner.has-screenshot.composite {
+    padding: 12px;
+  }
+  .screenshot-gallery {
+    gap: 12px;
+  }
+  .screenshot-gallery figure {
+    width: calc(50% - 6px);
+  }
+  .screenshot-gallery figcaption {
+    font-size: 10px;
+  }
+}
+.project-content > .eyebrow {
+  min-height: 0;
+}
+.project-visual.composite .project-preview {
+  padding: 42px 15px 32px;
+}
+.project-visual.composite .project-screenshot {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  box-shadow: none;
+}
+.project-visual.composite .project-screenshot img {
+  width: auto;
+  max-width: 100%;
+  max-height: 181px;
+  object-fit: contain;
+  box-shadow: 0 12px 24px #0005;
+}

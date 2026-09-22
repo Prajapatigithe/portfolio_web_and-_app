@@ -7,9 +7,9 @@ const routes = [
   { path: '/', title: 'Ankit Kumar | Freelance React Native Developer' },
   {
     path: '/projects/newtapri',
-    title: 'NewTapri | React Native Project | Ankit Kumar',
+    title: 'NewsTapri | News Platform | Ankit Kumar',
     description:
-      'Explore NewTapri, a React Native mobile experience with real-time data and intuitive navigation.',
+      'Explore NewsTapri, a responsive news and entertainment platform with live updates and topic-based discovery.',
   },
   {
     path: '/projects/khajanchi',
@@ -19,9 +19,9 @@ const routes = [
   },
   {
     path: '/projects/achideal',
-    title: 'AchiDeal | Marketplace App | Ankit Kumar',
+    title: 'AchiDeal | Shopping Web App | Ankit Kumar',
     description:
-      'Explore AchiDeal, a React Native marketplace connecting local buyers and sellers.',
+      'Explore AchiDeal, a mobile-friendly shopping web app for gifts, creative activities, and everyday celebrations.',
   },
   { path: '/admin', title: 'Admin | Ankit Kumar' },
 ];

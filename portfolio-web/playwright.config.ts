@@ -16,6 +16,7 @@ export default defineConfig({
       url: 'http://127.0.0.1:5174',
       reuseExistingServer: false,
       env: {
+        VITE_INQUIRY_CHANNEL: 'supabase',
         VITE_SUPABASE_URL: 'https://portfolio-test.supabase.co',
         VITE_SUPABASE_PUBLISHABLE_KEY: 'test-publishable-key',
       },

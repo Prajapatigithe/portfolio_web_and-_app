@@ -12,7 +12,9 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Without Supabase configuration, the portfolio works and the contact form reports that it is not connected. Email and WhatsApp links remain usable. No lead is falsely marked as submitted.
+The inquiry form defaults to WhatsApp (`VITE_INQUIRY_CHANNEL=whatsapp`). Submitting it opens a prefilled message to +91 9889091773 with the name, email, company, project type, budget, timeline, and brief. The visitor must review the message and press Send in WhatsApp. The form preserves their input and provides a fallback link if the popup is blocked. This mode needs no backend and does not store leads in the admin dashboard.
+
+To use database submissions later, configure Supabase and set `VITE_INQUIRY_CHANNEL=supabase`. If Supabase is missing, the form falls back to WhatsApp with matching button/instructions.
 
 ## Supabase setup
 
@@ -25,7 +27,7 @@ Without Supabase configuration, the portfolio works and the contact form reports
    ```
 
 4. Restart Vite, open `/admin`, and sign in with that user's email/password.
-5. Submit a real inquiry and confirm it appears in the dashboard. Test status updates and sign-out before publishing.
+5. Set `VITE_INQUIRY_CHANNEL=supabase` and restart Vite. Submit a real inquiry and confirm it appears in the dashboard. Test status updates and sign-out before publishing.
 
 The database is the authorization boundary. Anonymous visitors can only call `submit_lead`; it validates constrained fields, ignores injected status/ID fields, rejects the honeypot, and limits submissions per email to one per two minutes. Only an explicitly allowlisted Auth user can read leads or update their status. Ordinary authenticated users cannot read leads or add themselves to the allowlist. Only the `status` column can be updated by admins through the public API. No browser has delete permission.
 
@@ -33,7 +35,7 @@ The per-email cooldown and honeypot are basic abuse controls, not a comprehensiv
 
 ## Production deployment and SEO
 
-Set the deployment root to `portfolio-web`, build command to `npm run build`, and output directory to `dist`. Set the three required deployment variables: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, and `VITE_SITE_URL` (your actual HTTPS origin). Build again whenever these change.
+Set the deployment root to `portfolio-web`, build command to `npm run build`, and output directory to `dist`. Set `VITE_SITE_URL` to your actual HTTPS origin. WhatsApp inquiries work without any Supabase variables. For database submissions and admin access, also set `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, and `VITE_INQUIRY_CHANNEL=supabase`. Build again whenever these change.
 
 Vercel and Netlify SPA fallbacks are supplied. Other hosts must serve `index.html` for `/admin` and `/projects/*`. Domain-root deployment is assumed; GitHub Pages requires additional path/fallback configuration.
 
@@ -49,7 +51,9 @@ The build generates `sitemap.xml`, a domain-specific robots file, canonical tags
 - `src/index.css`: dark responsive design, focus indicators, reduced-motion support.
 - `supabase/migrations/001_leads.sql`: schema, validation, privileges, RLS, and submission RPC.
 
-Existing project names/descriptions, portrait, resume, and contact information are reused. No project-specific repository/demo URLs or verified screenshots/results were supplied. Illustrations and the testimonial are explicitly labeled examples; no fabricated client quotes or metrics are presented as evidence. Replace these with approved screenshots, exact contributions, release/repository links, outcomes, and testimonials before marketing the site. Confirm that `public/Resume.pdf` remains current.
+The portrait, resume, and contact details are reused. AchiDeal now uses mobile viewport screenshots captured from [achideal.com](https://achideal.com/) on September 22, 2026, and describes the public shopping web app. NewsTapri uses the original project image, documented web stack, and feature summary from [Radoms Digital](https://www.radomsdigital.com/portfolio/newstapri). The existing `/projects/newtapri` URL is preserved to avoid breaking links; the displayed name is corrected to NewsTapri. Its live domain returned HTTP 502 during verification, so the outgoing link uses the published project page.
+
+`public/projects/` contains locally served source visuals; they are not fabricated app screenshots. The NewsTapri source’s team-level metrics and testimonial are not claimed as Ankit’s individual achievements. Exact individual responsibilities still need confirmation. Khajanchi and the hero retain illustrative interfaces. The testimonial remains clearly marked as an example. Confirm that `public/Resume.pdf` remains current.
 
 ## Analytics
 
@@ -64,4 +68,4 @@ npm test
 npm run test:db
 ```
 
-Browser tests require Google Chrome locally (or adapt `playwright.config.ts` to installed Playwright browsers). They exercise responsive navigation, route reloads, form validation, unconfigured backend behavior, and console errors. A second local server uses test-only credentials and intercepted responses to check submission success/error and admin login, status changes, and logout. Database tests use an isolated in-memory PostgreSQL engine with stubbed Supabase Auth roles; they execute the actual migration and verify validation, cooldown, RLS, allowlisting, and status-only updates. They do not replace a live Supabase smoke test.
+Browser tests require Google Chrome locally (or adapt `playwright.config.ts` to installed Playwright browsers). They exercise responsive navigation, route reloads, form validation, complete WhatsApp message encoding and popup fallback, project image loading, and console errors. WhatsApp is stubbed in tests; no messages are sent. A second local server uses test-only credentials and intercepted responses to check submission success/error and admin login, status changes, and logout. Database tests use an isolated in-memory PostgreSQL engine with stubbed Supabase Auth roles; they execute the actual migration and verify validation, cooldown, RLS, allowlisting, and status-only updates. They do not replace a live Supabase smoke test.
