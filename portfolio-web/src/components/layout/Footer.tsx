@@ -1,12 +1,29 @@
-import { profile } from '../../data/site'
-
+import { contact } from '../../data/site';
 export function Footer() {
-  const year = new Date().getFullYear()
   return (
-    <footer className="border-t border-slate-200/80 bg-slate-50 py-8 text-center text-sm text-slate-500 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-400">
-      <p>
-        © {year} {profile.name}. Built with React & Vite.
-      </p>
+    <footer className="container footer">
+      <div>
+        <a className="brand" href="/">
+          Ankit Kumar<span className="brand-dot">.</span>
+        </a>
+        <p>React Native Developer · Building ideas into apps.</p>
+      </div>
+      <div className="footer-links">
+        <a href={contact.github} target="_blank" rel="noreferrer">
+          GitHub ↗
+        </a>
+        <a href={contact.linkedin} target="_blank" rel="noreferrer">
+          LinkedIn ↗
+        </a>
+        <a href={`mailto:${contact.email}`}>Email ↗</a>
+        <a href="/#contact">Contact</a>
+      </div>
+      <div className="footer-bottom">
+        <span>
+          © {new Date().getFullYear()} Ankit Kumar. All rights reserved.
+        </span>
+        <span>Thoughtfully built with React.</span>
+      </div>
     </footer>
-  )
+  );
 }

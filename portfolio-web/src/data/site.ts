@@ -1,63 +1,112 @@
 export const profile = {
   name: 'Ankit Kumar',
   title: 'React Native Developer',
-  intro:
-    'I craft performant mobile experiences with React Native, TypeScript, and scalable architecture. Passionate about clean UI, reliable APIs, and shipping products users love.',
   image: '/Ankit.png',
-}
-
-export const about = {
-  paragraphs: [
-    'I am a React Native developer focused on building polished cross-platform apps with strong attention to performance, accessibility, and maintainability.',
-    'My experience spans JavaScript and TypeScript, state management with Redux, REST and GraphQL-style integrations, and Firebase-backed features such as auth and realtime data.',
-    'I enjoy collaborating with designers and backend engineers to turn ideas into stable releases and measurable user value.',
-  ],
-}
-
-export const skills = [
-  'React Native',
-  'JavaScript',
-  'TypeScript',
-  'Redux',
-  'APIs',
-  'Firebase',
-] as const
-
-export type Project = {
-  title: string
-  description: string
-  tech: string[]
-  github: string
-}
-
-export const projects: Project[] = [
-  {
-    title: 'NewTapri',
-    description: 'A modern mobile application built with React Native, focused on delivering a smooth and responsive user experience. The app includes real-time data handling, optimized performance, and clean navigation.',
-    tech: ['React Native', 'TypeScript', 'Redux', 'Firebase'],
-    github: 'https://github.com/Prajapatigithe',
-  },
-  {
-    title: 'Khajanchi',
-    description: 'An e-commerce mobile application designed for seamless product browsing, secure transactions, and smooth user experience. Built with a focus on scalability and performance.',
-
-    tech: ['React Native', 'JavaScript', 'Redux', 'APIs'],
-    github: 'https://github.com/Prajapatigithe',
-  },
-  {
-    title: 'AchiDeal',
-    description:
-      'A marketplace mobile application that allows users to buy and sell products locally. The app focuses on real-time listings, smooth user experience, and easy interaction between buyers and sellers.',
-    tech: ['React Native', 'TypeScript', 'Firebase', 'APIs'],
-    github: 'https://github.com/Prajapatigithe',
-  },
-]
-
+};
 export const contact = {
   email: 'officialankit2306@gmail.com',
   phone: '+91 9889091773',
+  whatsapp: 'https://wa.me/919889091773',
   linkedin: 'https://www.linkedin.com/in/ankit-kumar-01603b2b8/',
   github: 'https://github.com/Prajapatigithe',
-}
-
-export const resumeFile = '/Resume.pdf'
+};
+export const resumeFile = '/Resume.pdf';
+export const skills = [
+  'React Native',
+  'React',
+  'JavaScript',
+  'TypeScript',
+  'Redux',
+  'Firebase',
+  'Supabase',
+  'REST APIs',
+  'Git',
+  'Android',
+  'iOS',
+];
+export const projects = [
+  {
+    slug: 'newtapri',
+    title: 'NewTapri',
+    category: 'MOBILE EXPERIENCE',
+    description:
+      'A connected mobile experience with real-time data and intuitive navigation.',
+    problem: 'Keeping changing information easy to find on a small screen.',
+    solution:
+      'A React Native experience built around real-time data, clear navigation, and responsive interactions.',
+    tech: ['React Native', 'TypeScript', 'Redux', 'Firebase'],
+    features: [
+      'Real-time data handling',
+      'Responsive navigation',
+      'Shared application state',
+    ],
+    color: 'purple',
+  },
+  {
+    slug: 'khajanchi',
+    title: 'Khajanchi',
+    category: 'E-COMMERCE',
+    description:
+      'Bringing product discovery and shopping together in one mobile experience.',
+    problem:
+      'Helping shoppers move from browsing products to a purchase without unnecessary friction.',
+    solution:
+      'An e-commerce application focused on product browsing, transaction flows, and a consistent mobile interface.',
+    tech: ['React Native', 'JavaScript', 'Redux', 'REST API'],
+    features: ['Product browsing', 'Shopping flows', 'API integration'],
+    color: 'blue',
+  },
+  {
+    slug: 'achideal',
+    title: 'AchiDeal',
+    category: 'LOCAL MARKETPLACE',
+    description:
+      'Connecting local buyers and sellers through an accessible mobile marketplace.',
+    problem:
+      'Making local products discoverable and helping buyers connect with sellers.',
+    solution:
+      'A marketplace application with real-time listings and straightforward buyer–seller interactions.',
+    tech: ['React Native', 'TypeScript', 'Firebase', 'REST API'],
+    features: [
+      'Local product listings',
+      'Real-time updates',
+      'Buyer–seller interactions',
+    ],
+    color: 'green',
+  },
+];
+export const projectTypes = [
+  'New Mobile App',
+  'Existing App Improvement',
+  'Bug Fixing',
+  'API Integration',
+  'Firebase/Supabase',
+  'Other',
+];
+export const budgets = [
+  'Under $500',
+  '$500–$1,000',
+  '$1,000–$3,000',
+  '$3,000+',
+  'Not sure yet',
+];
+export const statuses = [
+  'new',
+  'contacted',
+  'in_progress',
+  'completed',
+  'rejected',
+] as const;
+export type LeadStatus = (typeof statuses)[number];
+export type Lead = {
+  id: string;
+  name: string;
+  email: string;
+  company: string;
+  project_type: string;
+  budget: string;
+  timeline: string;
+  message: string;
+  status: LeadStatus;
+  created_at: string;
+};

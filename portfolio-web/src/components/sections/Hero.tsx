@@ -1,60 +1,102 @@
-import { motion } from 'framer-motion'
-import { profile } from '../../data/site'
-import { Button } from '../ui/Button'
-
+import {
+  ArrowUpRight,
+  ArrowDown,
+  Code2,
+  Layers,
+  Check,
+  Smartphone,
+} from 'lucide-react';
+import { PhoneMockup } from '../ui/PhoneMockup';
 export function Hero() {
   return (
-    <section
-      id="home"
-      className="relative overflow-hidden border-b border-slate-200/70 bg-gradient-to-b from-indigo-50/80 via-white to-white px-4 py-20 dark:border-slate-800 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 sm:px-6 lg:px-8"
-    >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(99,102,241,0.18),transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(139,92,246,0.2),transparent)]" />
-
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
-        <motion.div
-          className="max-w-xl text-center lg:text-left"
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <p className="mb-3 inline-flex rounded-full border border-indigo-200/80 bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-indigo-700 shadow-sm dark:border-violet-500/40 dark:bg-slate-900/80 dark:text-violet-300">
-            Open to opportunities
-          </p>
-          <h1 className="bg-gradient-to-br from-slate-900 via-indigo-800 to-violet-700 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl lg:text-6xl dark:from-white dark:via-violet-200 dark:to-fuchsia-300">
-            {profile.name}
+    <>
+      <section id="home" className="hero container">
+        <div className="hero-copy">
+          <div className="availability">
+            <span /> Available for Freelance Work
+          </div>
+          <p className="eyebrow hero-eyebrow">YOUR IDEA. A REAL-WORLD APP.</p>
+          <h1>
+            I Build High-Quality
+            <br />
+            Mobile Apps for
+            <br />
+            <span>Startups &amp; Businesses</span>
           </h1>
-          <p className="mt-3 text-xl font-medium text-indigo-600 dark:text-violet-400">
-            {profile.title}
+          <p className="hero-description">
+            React Native Developer specializing in fast, scalable Android and
+            iOS applications.
           </p>
-          <p className="mt-5 text-lg leading-relaxed text-slate-600 dark:text-slate-400">
-            {profile.intro}
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-            <Button href="#contact">Get in touch</Button>
-            <Button href="#projects" variant="outline">
-              View work
-            </Button>
+          <div className="hero-actions">
+            <a className="button" href="#contact">
+              Start a Project <ArrowUpRight size={18} />
+            </a>
+            <a className="button outline" href="#projects">
+              View My Work <ArrowDown size={16} />
+            </a>
           </div>
-        </motion.div>
-
-        <motion.div
-          className="relative shrink-0"
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-indigo-400/30 via-violet-400/20 to-fuchsia-400/30 blur-2xl dark:from-violet-500/25 dark:via-fuchsia-500/15 dark:to-indigo-500/25" />
-          <div className="relative h-56 w-56 overflow-hidden rounded-full border-4 border-white shadow-2xl ring-4 ring-indigo-500/10 dark:border-slate-800 dark:ring-violet-500/20 sm:h-64 sm:w-64">
-            <img
-              src={profile.image}
-              alt={profile.name}
-              className="h-full w-full object-cover"
-              width={320}
-              height={320}
-            />
+          <div className="hero-details">
+            <span>
+              <Code2 size={15} /> React Native Developer
+            </span>
+            <span>
+              <Smartphone size={15} /> Android &amp; iOS
+            </span>
           </div>
-        </motion.div>
+          <a className="text-link hero-contact" href="#contact">
+            Have something in mind? Contact Me <ArrowUpRight size={14} />
+          </a>
+        </div>
+        <div className="hero-visual">
+          <div className="orbit orbit-one" />
+          <div className="orbit orbit-two" />
+          <div className="visual-dots" />
+          <div className="float-card code-card">
+            <div className="float-icon">
+              <Code2 size={20} />
+            </div>
+            <div>
+              <b>One codebase.</b>
+              <span>Two powerful platforms.</span>
+            </div>
+          </div>
+          <div className="hero-phone">
+            <PhoneMockup />
+          </div>
+          <div className="float-card ship-card">
+            <div className="check-icon">
+              <Check size={17} />
+            </div>
+            <div>
+              <b>Built to perform</b>
+              <span>Designed for your users</span>
+            </div>
+          </div>
+          <div className="visual-caption">
+            CONCEPT INTERFACE · BUILT WITH PURPOSE
+          </div>
+        </div>
+      </section>
+      <div className="tech-strip">
+        <div className="container">
+          <span>
+            THE TOOLS BEHIND
+            <br />
+            <b>YOUR NEXT BIG IDEA</b>
+          </span>
+          <span>
+            <Code2 /> React Native
+          </span>
+          <span className="ts-logo">
+            TS <b>TypeScript</b>
+          </span>
+          <span>♨ Firebase</span>
+          <span>ϟ Supabase</span>
+          <span>
+            <Layers /> REST APIs
+          </span>
+        </div>
       </div>
-    </section>
-  )
+    </>
+  );
 }

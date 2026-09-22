@@ -1,70 +1,78 @@
-import { motion } from 'framer-motion'
-import { projects } from '../../data/site'
-import { Card } from '../ui/Card'
-
+import { ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { projects } from '../../data/site';
+import { PhoneMockup } from '../ui/PhoneMockup';
 export function Projects() {
   return (
-    <section
-      id="projects"
-      className="scroll-mt-20 border-b border-slate-200/70 bg-white px-4 py-20 dark:border-slate-800 dark:bg-slate-950 sm:px-6 lg:px-8"
-    >
-      <div className="mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            Projects
+    <section id="projects" className="section container">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">SELECTED WORK</p>
+          <h2>
+            Ideas turned into
+            <br />
+            <span>mobile experiences.</span>
           </h2>
-          <div className="mt-3 h-1 w-16 rounded-full bg-gradient-to-r from-indigo-600 to-violet-500 dark:from-violet-500 dark:to-fuchsia-500" />
-          <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-400">
-            <code className="rounded bg-slate-100 px-1.5 py-0.5 text-sm dark:bg-slate-800">
-            </code>
-          </p>
-        </motion.div>
-
-        <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, i) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: i * 0.06 }}
-            >
-              <Card className="flex h-full flex-col">
-                <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
-                  {project.title}
-                </h3>
-                <p className="mt-3 flex-1 text-slate-600 dark:text-slate-400">
-                  {project.description}
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {project.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-lg bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-800 dark:bg-violet-950/80 dark:text-violet-200"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 transition hover:gap-3 hover:text-indigo-800 dark:text-violet-400 dark:hover:text-violet-300"
-                >
-                  View on GitHub
-                  <span aria-hidden>→</span>
-                </a>
-              </Card>
-            </motion.div>
-          ))}
         </div>
+        <p>
+          A closer look at the apps I build — and the everyday problems they’re
+          designed to solve.
+        </p>
       </div>
+      <div className="project-grid">
+        {projects.map((project, i) => (
+          <article className="project-card" key={project.slug}>
+            <Link
+              to={`/projects/${project.slug}`}
+              className={`project-visual ${project.color}`}
+              aria-label={`View ${project.title} case study`}
+            >
+              <span className="project-number">
+                0{i + 1} / {project.category}
+              </span>
+              <div className="project-phone">
+                <PhoneMockup variant={project.color} />
+              </div>
+              <span className="concept-label">Illustrative interface</span>
+              <span className="project-arrow">
+                <ArrowUpRight size={21} />
+              </span>
+            </Link>
+            <div className="project-content">
+              <p className="eyebrow">{project.category}</p>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <div className="project-summary">
+                <p>
+                  <b>Problem</b> {project.problem}
+                </p>
+                <p>
+                  <b>Solution</b> {project.solution}
+                </p>
+                <p>
+                  <b>Role</b> React Native development
+                </p>
+                <p>
+                  <b>Features</b> {project.features.join(' · ')}
+                </p>
+              </div>
+              <div className="tags">
+                {project.tech.map(t => (
+                  <span key={t}>{t}</span>
+                ))}
+              </div>
+              <Link className="case-link" to={`/projects/${project.slug}`}>
+                View Case Study <ArrowUpRight size={17} />
+              </Link>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p className="section-note">
+        Project summaries are based on the existing portfolio. Interfaces are
+        illustrative; verified screenshots and results will be added when
+        available.
+      </p>
     </section>
-  )
+  );
 }

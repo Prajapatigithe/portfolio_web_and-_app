@@ -1,0 +1,1 @@
+{"rewrites":[{"source":"/admin","destination":"/admin/index.html"},{"source":"/projects/newtapri","destination":"/projects/newtapri/index.html"},{"source":"/projects/khajanchi","destination":"/projects/khajanchi/index.html"},{"source":"/projects/achideal","destination":"/projects/achideal/index.html"},{"source":"/projects/:slug","destination":"/index.html"}]}

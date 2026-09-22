@@ -1,195 +1,225 @@
-import { motion } from 'framer-motion'
-import { useState, useRef } from 'react'
-import emailjs from '@emailjs/browser'
-import { contact } from '../../data/site'
-import { Card } from '../ui/Card'
-import { QRCodeCard } from '../ui/QRCodeCard'
-
+import { useState } from 'react';
+import {
+  ArrowUpRight,
+  Mail,
+  Code2,
+  BriefcaseBusiness,
+  MessageCircle,
+  CheckCircle2,
+} from 'lucide-react';
+import { contact, projectTypes, budgets } from '../../data/site';
+import { supabase } from '../../lib/supabase';
 export function Contact() {
-  const [status, setStatus] = useState<'idle' | 'sent' | 'error'>('idle')
-  const formRef = useRef<HTMLFormElement>(null)
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-
-    if (!formRef.current) return
-
-    emailjs
-      .sendForm(
-        'service_4bv8jy5',
-        'template_j4owak5',
-        formRef.current,
-        {
-          publicKey: '3YTnzKopcKieF2xb9',
-        }
-      )
-      .then(() => {
-        setStatus('sent')
-        formRef.current?.reset()
-        setTimeout(() => setStatus('idle'), 4000)
-      })
-      .catch((error) => {
-        console.log('EmailJS Error:', error)
-        setStatus('error')
-      })
+  const [status, setStatus] = useState<
+    'idle' | 'sending' | 'success' | 'error'
+  >('idle');
+  const [error, setError] = useState('');
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (status === 'sending') return;
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const fields = [
+      'name',
+      'email',
+      'company',
+      'project_type',
+      'budget',
+      'timeline',
+      'message',
+    ] as const;
+    const payload = Object.fromEntries(
+      fields.map(key => [key, String(data.get(key) || '').trim()]),
+    );
+    if (payload.name.length < 2 || payload.message.length < 20) {
+      setError(
+        'Please enter your name and at least 20 characters about your project.',
+      );
+      setStatus('error');
+      return;
+    }
+    if (!supabase) {
+      setError(
+        'The inquiry form is not connected yet. Please email me or use WhatsApp to discuss your project.',
+      );
+      setStatus('error');
+      return;
+    }
+    setStatus('sending');
+    try {
+      const { error } = await supabase.rpc('submit_lead', {
+        payload,
+        website: String(data.get('website') || ''),
+      });
+      if (error) throw error;
+      setStatus('success');
+      form.reset();
+    } catch {
+      setStatus('error');
+      setError(
+        'Your inquiry could not be sent. Please try again or contact me by email.',
+      );
+    }
   }
-
   return (
-    <section
-      id="contact"
-      className="scroll-mt-20 bg-white px-4 py-20 dark:bg-slate-950 sm:px-6 lg:px-8"
-    >
-      <div className="mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            Contact
-          </h2>
-          <div className="mt-3 h-1 w-16 rounded-full bg-gradient-to-r from-indigo-600 to-violet-500 dark:from-violet-500 dark:to-fuchsia-500" />
-          <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-400">
-            Reach out for collaborations, freelance work, or full-time roles.
-          </p>
-        </motion.div>
-
-        <div className="mt-12 grid gap-10 lg:grid-cols-2">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45 }}
-          >
-            <Card>
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                Direct links
-              </h3>
-              <ul className="mt-4 space-y-3 text-slate-600 dark:text-slate-400">
-                <li>
-                  <span className="font-medium text-slate-800 dark:text-slate-200">
-                    Email
-                  </span>
-                  <br />
-                  <a
-                    className="text-indigo-600 hover:text-indigo-800 dark:text-violet-400"
-                    href={`mailto:${contact.email}`}
-                  >
-                    {contact.email}
-                  </a>
-                </li>
-                <li>
-                  <span className="font-medium text-slate-800 dark:text-slate-200">
-                    Phone
-                  </span>
-                  <br />
-                  <a
-                    className="text-indigo-600 hover:text-indigo-800 dark:text-violet-400"
-                    href={`tel:${contact.phone.replace(/\s/g, '')}`}
-                  >
-                    {contact.phone}
-                  </a>
-                </li>
-                <li>
-                  <span className="font-medium text-slate-800 dark:text-slate-200">
-                    LinkedIn
-                  </span>
-                  <br />
-                  <a
-                    className="text-indigo-600 hover:text-indigo-800 dark:text-violet-400"
-                    href={contact.linkedin}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    Profile
-                  </a>
-                </li>
-                <li>
-                  <span className="font-medium text-slate-800 dark:text-slate-200">
-                    GitHub
-                  </span>
-                  <br />
-                  <a
-                    className="text-indigo-600 hover:text-indigo-800 dark:text-violet-400"
-                    href={contact.github}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    Repositories
-                  </a>
-                </li>
-              </ul>
-            </Card>
-          </motion.div>
-          <div className="mt-4 space-y-3 hover:text-indigo-800 justify-center">
-            <QRCodeCard />
+    <section id="contact" className="section contact-section">
+      <div className="container contact-grid">
+        <div>
+          <div className="availability">
+            <span /> LET’S CREATE SOMETHING GREAT
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45, delay: 0.05 }}
-          >
-            <Card>
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                Send a message
-              </h3>
-
-              <form ref={formRef} className="mt-4 space-y-4" onSubmit={handleSubmit}>
-                <div>
-                  <label className="block text-sm font-medium">Name</label>
-                  <input
-                    name="name"
-                    required
-                    className="w-full rounded-xl border px-4 py-2.5"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium">Email</label>
-                  <input
-                    name="email"
-                    type="email"
-                    required
-                    className="w-full rounded-xl border px-4 py-2.5"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium">Message</label>
-                  <textarea
-                    name="message"
-                    rows={4}
-                    required
-                    className="w-full rounded-xl border px-4 py-2.5"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-3 text-white sm:w-auto"
-                >
-                  Send message
-                </button>
-
-                {status === 'sent' && (
-                  <p className="text-sm text-emerald-600">
-                    ✅ Message sent successfully!
-                  </p>
-                )}
-
-                {status === 'error' && (
-                  <p className="text-sm text-red-600">
-                    ❌ Failed to send message. Try again.
-                  </p>
-                )}
-              </form>
-            </Card>
-          </motion.div>
+          <h2>
+            Have an App Idea?
+            <br />
+            <span>Let’s Build It.</span>
+          </h2>
+          <p>
+            Tell me what you have in mind. We’ll discuss your goals, explore
+            what’s possible, and work out the next step.
+          </p>
+          <a className="contact-email" href={`mailto:${contact.email}`}>
+            <Mail size={20} />
+            {contact.email}
+            <ArrowUpRight size={18} />
+          </a>
+          <div className="social-links">
+            <a href={contact.whatsapp} target="_blank" rel="noreferrer">
+              <MessageCircle size={18} />
+              WhatsApp
+            </a>
+            <a href={contact.linkedin} target="_blank" rel="noreferrer">
+              <BriefcaseBusiness size={18} />
+              LinkedIn
+            </a>
+            <a href={contact.github} target="_blank" rel="noreferrer">
+              <Code2 size={18} />
+              GitHub
+            </a>
+          </div>
+          <div className="contact-note">
+            <CheckCircle2 size={18} />
+            <span>A conversation first. No commitment required.</span>
+          </div>
         </div>
+        <form className="inquiry-form" onSubmit={submit}>
+          <h3>
+            Tell me about your project <ArrowUpRight size={20} />
+          </h3>
+          <div className="form-grid">
+            <label>
+              Your name <span>*</span>
+              <input
+                name="name"
+                autoComplete="name"
+                placeholder="Alex Johnson"
+                required
+                minLength={2}
+                maxLength={100}
+              />
+            </label>
+            <label>
+              Email address <span>*</span>
+              <input
+                name="email"
+                type="email"
+                autoComplete="email"
+                placeholder="alex@company.com"
+                required
+                maxLength={254}
+              />
+            </label>
+            <label className="full">
+              Company name <small>(optional)</small>
+              <input
+                name="company"
+                autoComplete="organization"
+                placeholder="Your company or startup"
+                maxLength={150}
+              />
+            </label>
+            <label>
+              Project type <span>*</span>
+              <select name="project_type" required defaultValue="">
+                <option value="" disabled>
+                  Select project type
+                </option>
+                {projectTypes.map(v => (
+                  <option key={v}>{v}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Budget range <span>*</span>
+              <select name="budget" required defaultValue="">
+                <option value="" disabled>
+                  Select your budget
+                </option>
+                {budgets.map(v => (
+                  <option key={v}>{v}</option>
+                ))}
+              </select>
+            </label>
+            <label className="full">
+              Expected timeline <span>*</span>
+              <select name="timeline" required defaultValue="">
+                <option value="" disabled>
+                  When would you like to get started?
+                </option>
+                {[
+                  'As soon as possible',
+                  'Within 1 month',
+                  '1–3 months',
+                  'Flexible / exploring',
+                ].map(v => (
+                  <option key={v}>{v}</option>
+                ))}
+              </select>
+            </label>
+            <label className="full">
+              Your project idea <span>*</span>
+              <textarea
+                name="message"
+                rows={4}
+                placeholder="What are you building, and how can I help?"
+                required
+                minLength={20}
+                maxLength={5000}
+              />
+            </label>
+            <div className="honeypot" aria-hidden="true">
+              <label>
+                Website
+                <input name="website" tabIndex={-1} autoComplete="off" />
+              </label>
+            </div>
+          </div>
+          <button
+            className="button submit-button"
+            disabled={status === 'sending'}
+          >
+            {status === 'sending'
+              ? 'Sending your inquiry…'
+              : 'Send Project Inquiry'}
+            <ArrowUpRight size={18} />
+          </button>
+          <p className="privacy-note">
+            Your details are used only to respond to your project inquiry.
+          </p>
+          <div aria-live="polite">
+            {status === 'success' && (
+              <p className="success-message">
+                Thanks! Your project inquiry has been received. I’ll reply by
+                email.
+              </p>
+            )}
+            {status === 'error' && (
+              <p className="error-message" role="alert">
+                {error}
+              </p>
+            )}
+          </div>
+        </form>
       </div>
     </section>
-  )
+  );
 }
