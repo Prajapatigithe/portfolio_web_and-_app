@@ -1,7 +1,8 @@
 import { writeFileSync, readFileSync, mkdirSync } from 'node:fs';
 import { loadEnv } from 'vite';
 const env = loadEnv('production', process.cwd(), 'VITE_');
-const base = env.VITE_SITE_URL;
+const seo = JSON.parse(readFileSync('src/data/seo.json', 'utf8'));
+const base = env.VITE_SITE_URL || seo.origin;
 const template = readFileSync('dist/index.html', 'utf8');
 const routes = [
   { path: '/', title: 'Ankit Kumar | Freelance React Native Developer' },
@@ -51,7 +52,33 @@ for (const route of routes) {
       : origin
         ? `<link rel="canonical" href="${origin}${route.path}"/><meta property="og:url" content="${origin}${route.path}"/><meta property="og:image" content="${origin}/social-card.png"/><meta property="og:image:alt" content="Ankit Kumar — mobile app development for your business"/>`
         : '';
-  html = html.replace('</head>', `${metadata}</head>`);
+  const twitter = `<meta name="twitter:title" content="${route.title}"/><meta name="twitter:description" content="${route.description || seo.description}"/><meta name="twitter:image" content="${origin}/social-card.png"/>`;
+  const person =
+    route.path === '/'
+      ? `<script type="application/ld+json">${JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Person',
+          name: 'Ankit Kumar',
+          url: origin,
+          jobTitle: 'Freelance React Native Developer',
+          image: `${origin}/Ankit.png`,
+          knowsAbout: [
+            'React Native',
+            'TypeScript',
+            'Redux',
+            'Firebase',
+            'Supabase',
+            'REST APIs',
+            'Android',
+            'iOS',
+          ],
+          sameAs: [
+            'https://www.linkedin.com/in/ankit-kumar-01603b2b8/',
+            'https://github.com/Prajapatigithe',
+          ],
+        })}</script>`
+      : '';
+  html = html.replace('</head>', `${metadata}${twitter}${person}</head>`);
   const dir = `dist${route.path === '/' ? '' : route.path}`;
   mkdirSync(dir, { recursive: true });
   writeFileSync(`${dir}/index.html`, html);

@@ -12,7 +12,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-The inquiry form defaults to WhatsApp (`VITE_INQUIRY_CHANNEL=whatsapp`). Submitting it opens a prefilled message to +91 9889091773 with the name, email, company, project type, budget, timeline, and brief. The visitor must review the message and press Send in WhatsApp. The form preserves their input and provides a fallback link if the popup is blocked. This mode needs no backend and does not store leads in the admin dashboard.
+The inquiry form defaults to WhatsApp (`VITE_INQUIRY_CHANNEL=whatsapp`). Submitting it opens a prefilled message to +91 9569073981 with the name, email, company, project type, budget, timeline, and brief. The visitor must review the message and press Send in WhatsApp. The form preserves their input and provides a fallback link if the popup is blocked. This mode needs no backend and does not store leads in the admin dashboard.
 
 To use database submissions later, configure Supabase and set `VITE_INQUIRY_CHANNEL=supabase`. If Supabase is missing, the form falls back to WhatsApp with matching button/instructions.
 
@@ -39,7 +39,7 @@ Set the deployment root to `portfolio-web`, build command to `npm run build`, an
 
 Vercel and Netlify SPA fallbacks are supplied. Other hosts must serve `index.html` for `/admin` and `/projects/*`. Domain-root deployment is assumed; GitHub Pages requires additional path/fallback configuration.
 
-The build generates `sitemap.xml`, a domain-specific robots file, canonical tags, and an absolute Open Graph image URL when `VITE_SITE_URL` is set. The static social image is `public/social-card.png`; regenerate it with `node scripts/social-card.mjs` with Chrome installed. Admin is marked noindex in the client and excluded by robots. Search engines still need to execute JavaScript for page content; server rendering/prerendering is a future enhancement for deeper indexing.
+The build generates `sitemap.xml`, a domain-specific robots file, canonical tags, and an absolute Open Graph image URL using `VITE_SITE_URL`, or the existing production origin in `src/data/seo.json` by default. The static social image is `public/social-card.png`; regenerate it with `node scripts/social-card.mjs` with Chrome installed. Admin is marked noindex in the client and excluded by robots. Search engines still need to execute JavaScript for page content; server rendering/prerendering is a future enhancement for deeper indexing.
 
 ## Content and design
 
@@ -51,9 +51,17 @@ The build generates `sitemap.xml`, a domain-specific robots file, canonical tags
 - `src/index.css`: dark responsive design, focus indicators, reduced-motion support.
 - `supabase/migrations/001_leads.sql`: schema, validation, privileges, RLS, and submission RPC.
 
-The portrait, resume, and contact details are reused. AchiDeal now uses mobile viewport screenshots captured from [achideal.com](https://achideal.com/) on September 22, 2026, and describes the public shopping web app. NewsTapri uses the original project image, documented web stack, and feature summary from [Radoms Digital](https://www.radomsdigital.com/portfolio/newstapri). The existing `/projects/newtapri` URL is preserved to avoid breaking links; the displayed name is corrected to NewsTapri. Its live domain returned HTTP 502 during verification, so the outgoing link uses the published project page.
+The portrait, resume, contact details, existing routes, and inquiry flows are preserved. Project previews use optimized WebP images; original assets and provenance remain in `public/projects/SOURCES.md`. NewsTapri uses the mobile presentation adapted from its original composite, Khajanchi uses the supplied screenshots with status indicators cleaned, and AchiDeal retains the provided mobile previews. These presentation assets do not establish store releases or platform support.
 
-`public/projects/` contains locally served source visuals; they are not fabricated app screenshots. The NewsTapri source’s team-level metrics and testimonial are not claimed as Ankit’s individual achievements. Exact individual responsibilities still need confirmation. Khajanchi and the hero retain illustrative interfaces. The testimonial remains clearly marked as an example. Confirm that `public/Resume.pdf` remains current.
+### Conversion content configuration
+
+- Set `VITE_AVAILABLE_FOR_FREELANCE=true` to show the availability badge; it is hidden by default.
+- Add verified reviews to `testimonials` in `src/data/site.ts`. The section and navbar link remain hidden for an empty array. Reviews support name, role, company, quote, and optional image.
+- Project links support `playStore`, `appStore`, `github`, `website`, and the existing source URL. Missing URLs produce no buttons.
+- Set project `platforms` only to confirmed Android/iOS targets. Android is shown for the supplied Khajanchi screen; other platform details remain unspecified.
+- Keep project results descriptive until measured outcomes are available. No ratings, downloads, or client statistics have been added.
+- Run `node scripts/optimize-images.mjs` with Chrome installed after replacing the original images. This only resizes and re-encodes images as WebP, preserving original files.
+- Home-page structured data describes a Person. No business address, client review, or business credentials are invented. Metadata, canonical URLs, Twitter cards, and sitemap use the production origin or the configured override.
 
 ## Analytics
 

@@ -6,35 +6,46 @@ import {
   Check,
   Smartphone,
 } from 'lucide-react';
+import { availability, contact } from '../../data/site';
 import { PhoneMockup } from '../ui/PhoneMockup';
 export function Hero() {
   return (
     <>
       <section id="home" className="hero container">
         <div className="hero-copy">
-          <div className="availability">
-            <span /> Available for Freelance Work
-          </div>
-          <p className="eyebrow hero-eyebrow">YOUR IDEA. A REAL-WORLD APP.</p>
+          {availability.freelance && (
+            <div className="availability">
+              <span /> Available for freelance projects
+            </div>
+          )}
+          <p className="eyebrow hero-eyebrow">
+            FREELANCE MOBILE APP DEVELOPMENT
+          </p>
           <h1>
-            I Build High-Quality
+            React Native Developer
             <br />
-            Mobile Apps for
-            <br />
-            <span>Startups &amp; Businesses</span>
+            for <span>Android &amp; iOS Apps</span>
           </h1>
           <p className="hero-description">
-            React Native Developer specializing in fast, scalable Android and
-            iOS applications.
+            I build fast, reliable and user-friendly mobile apps for startups,
+            businesses and growing products.
           </p>
           <div className="hero-actions">
             <a className="button" href="#contact">
               Start a Project <ArrowUpRight size={18} />
             </a>
             <a className="button outline" href="#projects">
-              View My Work <ArrowDown size={16} />
+              View Projects <ArrowDown size={16} />
             </a>
           </div>
+          <a
+            className="text-link hero-whatsapp"
+            href={contact.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WhatsApp Me <ArrowUpRight size={16} />
+          </a>
           <div className="hero-details">
             <span>
               <Code2 size={15} /> React Native Developer
@@ -90,11 +101,14 @@ export function Hero() {
           <span className="ts-logo">
             TS <b>TypeScript</b>
           </span>
+          <span>Redux</span>
           <span>♨ Firebase</span>
           <span>ϟ Supabase</span>
           <span>
             <Layers /> REST APIs
           </span>
+          <span>Android</span>
+          <span>iOS</span>
         </div>
       </div>
     </>

@@ -1,16 +1,47 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { testimonials } from '../../data/site';
 const links = [
   'Home',
-  'About',
-  'Services',
   'Projects',
+  'Services',
+  'About',
   'Process',
-  'Testimonials',
+  ...(testimonials.length ? ['Testimonials'] : []),
+  'FAQ',
   'Contact',
 ];
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState('home');
+  const toggle = useRef<HTMLButtonElement>(null);
+  const { pathname } = useLocation();
+  useEffect(() => {
+    if (pathname !== '/') return;
+    const update = () => {
+      const sections = links
+        .map(link => document.getElementById(link.toLowerCase()))
+        .filter((node): node is HTMLElement => Boolean(node));
+      const current = sections
+        .filter(section => section.getBoundingClientRect().top <= 160)
+        .at(-1);
+      setActive(current?.id || 'home');
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, [pathname]);
+  useEffect(() => {
+    const close = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && open) {
+        setOpen(false);
+        toggle.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', close);
+    return () => document.removeEventListener('keydown', close);
+  }, [open]);
   return (
     <header className="site-header">
       <nav className="container nav" aria-label="Main navigation">
@@ -23,6 +54,7 @@ export function Navbar() {
           </span>
         </a>
         <button
+          ref={toggle}
           className="menu-toggle"
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
@@ -36,6 +68,11 @@ export function Navbar() {
             <a
               key={link}
               href={`/#${link.toLowerCase()}`}
+              aria-current={
+                pathname === '/' && active === link.toLowerCase()
+                  ? 'location'
+                  : undefined
+              }
               onClick={() => setOpen(false)}
             >
               {link}

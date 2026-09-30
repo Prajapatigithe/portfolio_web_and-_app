@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import { statuses, type Lead, type LeadStatus } from '../data/site';
 export default function Admin() {
   const [authorized, setAuthorized] = useState(false),
-    [checking, setChecking] = useState(true),
+    [checking, setChecking] = useState(Boolean(supabase)),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(''),
     [leads, setLeads] = useState<Lead[]>([]),
@@ -11,10 +11,7 @@ export default function Admin() {
     [refresh, setRefresh] = useState(0);
   useEffect(() => {
     const db = supabase;
-    if (!db) {
-      setChecking(false);
-      return;
-    }
+    if (!db) return;
     let active = true;
     async function load() {
       setChecking(true);

@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { projects } from '../../data/site';
+import { ProjectLinks } from '../ui/ProjectLinks';
 import { ProjectPreview } from '../ui/ProjectPreview';
 export function Projects() {
   return (
@@ -52,16 +53,17 @@ export function Projects() {
               <p>{project.description}</p>
               <div className="project-summary">
                 <p>
-                  <b>Problem</b> {project.problem}
-                </p>
-                <p>
-                  <b>Solution</b> {project.solution}
-                </p>
-                <p>
                   <b>Role</b> {project.role}
                 </p>
                 <p>
-                  <b>Features</b> {project.features.join(' · ')}
+                  <b>Features</b> {project.features.slice(0, 4).join(' · ')}
+                </p>
+                <p>
+                  <b>Platform</b>{' '}
+                  {project.platforms?.join(' / ') || 'Mobile app'}
+                </p>
+                <p>
+                  <b>Result</b> {project.result}
                 </p>
               </div>
               {project.stackLabel && (
@@ -73,18 +75,9 @@ export function Projects() {
                 ))}
               </div>
               <Link className="case-link" to={`/projects/${project.slug}`}>
-                View Case Study <ArrowUpRight size={17} />
+                View Project <ArrowUpRight size={17} />
               </Link>
-              {(project.website || project.source) && (
-                <a
-                  className="project-source-link"
-                  href={project.website || project.source}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {project.sourceLabel} <ArrowUpRight size={14} />
-                </a>
-              )}
+              <ProjectLinks project={project} />
             </div>
           </article>
         ))}

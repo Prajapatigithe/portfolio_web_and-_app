@@ -1,11 +1,4 @@
-import {
-  MessageSquare,
-  Map,
-  Code2,
-  ShieldCheck,
-  Rocket,
-  HeartHandshake,
-} from 'lucide-react';
+import { MessageSquare, Map, Code2, ShieldCheck, Rocket } from 'lucide-react';
 const steps = [
   {
     title: 'Discuss',
@@ -18,7 +11,7 @@ const steps = [
     text: 'Map the project structure, milestones, and development plan.',
   },
   {
-    title: 'Develop',
+    title: 'Build',
     icon: Code2,
     text: 'Build your mobile application with regular progress updates.',
   },
@@ -28,14 +21,9 @@ const steps = [
     text: 'Check functionality, interface, and performance across devices.',
   },
   {
-    title: 'Launch',
+    title: 'Deliver',
     icon: Rocket,
-    text: 'Prepare and submit your app to the Play Store and App Store.',
-  },
-  {
-    title: 'Support',
-    icon: HeartHandshake,
-    text: 'Maintain your app and plan improvements as your needs grow.',
+    text: 'Hand over the source code, builds, and release guidance agreed in your project scope.',
   },
 ];
 export function Process() {
@@ -45,9 +33,9 @@ export function Process() {
         <div className="center-heading">
           <p className="eyebrow">A CLEAR PATH FROM IDEA TO APP</p>
           <h2>
-            No guesswork.
+            How I work.
             <br />
-            <span>Just a thoughtful process.</span>
+            <span>From discussion to delivery.</span>
           </h2>
           <p>
             You’ll know what’s happening, what’s next, and where your project

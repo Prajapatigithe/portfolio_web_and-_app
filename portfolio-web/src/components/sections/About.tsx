@@ -3,9 +3,11 @@ import { profile, skills, resumeFile } from '../../data/site';
 const reasons = [
   'Cross-platform Android & iOS development',
   'Clean and maintainable code',
-  'Scalable app architecture',
+  'React Native focused development',
   'Regular communication',
-  'API and backend integration',
+  'REST API integration',
+  'Firebase / Supabase experience',
+  'Focus on app usability',
   'Performance-focused development',
   'Testing before delivery',
   'Post-launch support',
@@ -69,7 +71,7 @@ export function About() {
         </div>
         <div className="why-heading">
           <p className="eyebrow">MORE THAN JUST CODE</p>
-          <h3>Good apps start with a good partnership.</h3>
+          <h3>Why hire me</h3>
         </div>
         <div className="why-grid">
           {reasons.map(r => (

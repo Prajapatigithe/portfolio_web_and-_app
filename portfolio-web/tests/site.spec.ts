@@ -7,7 +7,7 @@ test('desktop content, project routes, resume and browser errors', async ({
   page.on('pageerror', e => errors.push(e.message));
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText(
-    'I Build High-Quality',
+    'React Native Developer',
   );
   await expect(page.locator('.service-card')).toHaveCount(10);
   await page.screenshot({ path: '/tmp/portfolio-desktop.png' });
@@ -17,7 +17,10 @@ test('desktop content, project routes, resume and browser errors', async ({
     .evaluate((img: HTMLImageElement) => img.decode());
   await page.locator('#about').screenshot({ path: '/tmp/portfolio-about.png' });
   await expect(page.locator('.project-card')).toHaveCount(3);
-  await page.getByRole('link', { name: 'View Case Study' }).first().click();
+  await page
+    .getByRole('link', { name: 'View Project', exact: true })
+    .first()
+    .click();
   await expect(page).toHaveURL(/projects\/newtapri/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('NewsTapri');
   await page.reload();
@@ -84,7 +87,7 @@ test('WhatsApp form validates, prepares the complete brief, and preserves input'
       .getByRole('link', { name: 'Open WhatsApp', exact: true })
       .getAttribute('href'))!,
   );
-  expect(url.origin + url.pathname).toBe('https://wa.me/919889091773');
+  expect(url.origin + url.pathname).toBe('https://wa.me/919569073981');
   const text = url.searchParams.get('text');
   for (const value of [
     'Test Client',
@@ -148,4 +151,70 @@ test('admin fails closed when unconfigured', async ({ page }) => {
     'content',
     'noindex,nofollow',
   );
+});
+
+test('client sections, real-data gates, FAQ and navigation', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await expect(page.locator('#clients .client-card')).toHaveCount(4);
+  await expect(page.locator('#testimonials')).toHaveCount(0);
+  await expect(page.locator('a[href="/#testimonials"]')).toHaveCount(0);
+  await expect(page.locator('.hero .availability')).toHaveCount(0);
+  await expect(page.locator('#process article')).toHaveCount(5);
+  const question = page.getByText('Do I get the source code?', { exact: true });
+  await question.click();
+  await expect(page.locator('details[open]')).toContainText(
+    'Source code handover',
+  );
+  await page.locator('#services').scrollIntoViewIfNeeded();
+  await expect(page.locator('nav a[aria-current="location"]')).toHaveText(
+    'Services',
+  );
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole('button', { name: 'Open menu' }).click();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused();
+  await expect(page.getByRole('button', { name: 'Open menu' })).toHaveAttribute(
+    'aria-expanded',
+    'false',
+  );
+});
+
+test('case studies preserve ordered sections and only available links', async ({
+  page,
+}) => {
+  for (const slug of ['newtapri', 'khajanchi', 'achideal']) {
+    await page.goto(`/projects/${slug}`);
+    await expect(page.locator('.case-grid h2')).toHaveText([
+      'Overview',
+      'Client / user problem',
+      'My role',
+      'Solution',
+      'Key features',
+      'Tech stack',
+      'Platforms',
+      'Result',
+      ...(slug === 'khajanchi' ? [] : ['Links']),
+    ]);
+    await expect(page.locator('main .project-links a')).toHaveCount(
+      slug === 'khajanchi' ? 0 : 1,
+    );
+    for (const img of await page.locator('.screenshot-gallery img').all())
+      await img.evaluate((node: HTMLImageElement) => node.decode());
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      'content',
+      /mobile/i,
+    );
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      `https://portfolio-web-and-app-99ka.vercel.app/projects/${slug}`,
+    );
+    await page.setViewportSize({ width: 375, height: 812 });
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBeTruthy();
+  }
 });

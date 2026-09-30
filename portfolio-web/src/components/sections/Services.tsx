@@ -24,18 +24,18 @@ const services = [
   },
   {
     icon: Rocket,
-    title: 'MVP Development',
-    text: 'Turn your core idea into a focused first release you can test with real users.',
+    title: 'Existing App Improvement',
+    text: 'Improve the screens, features, and flows in your current app without starting over.',
   },
   {
     icon: Flame,
-    title: 'Firebase Integration',
+    title: 'Firebase / Supabase Integration',
     text: 'Connect authentication, real-time data, and notifications to your mobile app.',
   },
   {
     icon: Database,
-    title: 'Supabase Integration',
-    text: 'Give your app a reliable foundation with authentication, storage, and Postgres.',
+    title: 'Performance Optimization',
+    text: 'Find slow screens and unnecessary work so your app feels smoother and responds faster.',
   },
   {
     icon: Braces,
@@ -49,7 +49,7 @@ const services = [
   },
   {
     icon: Wrench,
-    title: 'Existing App Maintenance',
+    title: 'App Maintenance',
     text: 'Keep your application stable with updates and practical improvements.',
   },
   {

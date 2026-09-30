@@ -1,7 +1,18 @@
+export const availability = {
+  freelance: import.meta.env.VITE_AVAILABLE_FOR_FREELANCE === 'true',
+};
+export type Testimonial = {
+  name: string;
+  role?: string;
+  company?: string;
+  quote: string;
+  image?: string;
+};
+export const testimonials: Testimonial[] = [];
 export const profile = {
   name: 'Ankit Kumar',
   title: 'React Native Developer',
-  image: '/Ankit.png',
+  image: '/Ankit.webp',
 };
 export const contact = {
   email: 'officialankit2306@gmail.com',
@@ -46,6 +57,10 @@ export type Project = {
   sourceLabel?: string;
   sourceNote?: string;
   stackLabel?: string;
+  platforms?: ('Android' | 'iOS')[];
+  playStore?: string;
+  appStore?: string;
+  github?: string;
 };
 export const projects: Project[] = [
   {
@@ -72,9 +87,10 @@ export const projects: Project[] = [
     userNeed:
       'Read relevant stories across devices and explore topics without losing context.',
     result:
-      'The project is featured in the Radoms Digital portfolio. Team-wide performance claims are not presented here as personal results.',
-    image: '/projects/newstapri-clean.png',
-    imageAlt: 'NewsTapri mobile preview with news categories, quiz, and featured story',
+      'A news reading experience with topic discovery, live updates, and social sharing.',
+    image: '/projects/newstapri-clean.webp',
+    imageAlt:
+      'NewsTapri mobile preview with news categories, quiz, and featured story',
     imageType: 'mobile',
     source: 'https://www.radomsdigital.com/portfolio/newstapri',
     sourceLabel: 'View published project',
@@ -84,6 +100,7 @@ export const projects: Project[] = [
   {
     slug: 'khajanchi',
     title: 'Khajanchi',
+    platforms: ['Android'],
     category: 'E-COMMERCE',
     description:
       'Bringing product discovery and shopping together in one mobile experience.',
@@ -95,22 +112,23 @@ export const projects: Project[] = [
     features: ['Product browsing', 'Shopping flows', 'API integration'],
     color: 'blue',
     role: 'React Native development',
-    image: '/projects/khajanchi-account-clean.png',
-    imageAlt: 'Khajanchi mobile app account screen with login, help, and settings',
+    image: '/projects/khajanchi-account-clean.webp',
+    imageAlt:
+      'Khajanchi mobile app account screen with login, help, and settings',
     imageType: 'mobile',
     gallery: [
       {
-        src: '/projects/khajanchi-account-clean.png',
+        src: '/projects/khajanchi-account-clean.webp',
         alt: 'Khajanchi mobile app account screen',
         caption: 'Account',
       },
       {
-        src: '/projects/khajanchi-login-clean.png',
+        src: '/projects/khajanchi-login-clean.webp',
         alt: 'Khajanchi mobile app sign-in screen',
         caption: 'Sign in',
       },
       {
-        src: '/projects/khajanchi-register-clean.png',
+        src: '/projects/khajanchi-register-clean.webp',
         alt: 'Khajanchi mobile app create-account screen',
         caption: 'Create account',
       },
@@ -118,7 +136,7 @@ export const projects: Project[] = [
     userNeed:
       'An accessible mobile shopping experience with clear product discovery.',
     result:
-      'Included in the existing portfolio. Verified release links and measured outcomes have not yet been supplied.',
+      'A mobile shopping experience with account creation, sign-in, and account settings.',
   },
   {
     slug: 'achideal',
@@ -145,18 +163,18 @@ export const projects: Project[] = [
       'Browse gifts and creative products comfortably from a phone, with prices and shopping controls close at hand.',
     result:
       'A React Native mobile shopping app for discovering gifts, browsing products, and managing wishlists and a shopping cart.',
-    image: '/projects/achideal-mobile.jpg',
+    image: '/projects/achideal-mobile.webp',
     imageAlt:
       'AchiDeal preview with its logo, search bar, gift categories, and new arrivals',
     imageType: 'mobile',
     gallery: [
       {
-        src: '/projects/achideal-mobile.jpg',
+        src: '/projects/achideal-mobile.webp',
         alt: 'AchiDeal mobile homepage',
         caption: 'Homepage',
       },
       {
-        src: '/projects/achideal-shop.jpg',
+        src: '/projects/achideal-shop.webp',
         alt: 'AchiDeal mobile product catalog',
         caption: 'Product catalog',
       },

@@ -2048,3 +2048,218 @@ summary {
   object-fit: contain;
   box-shadow: 0 12px 24px #0005;
 }
+
+/* Client-focused refinements, retaining the portfolio's original identity. */
+:root {
+  --muted: #b0adbd;
+}
+.hero h1 {
+  font-size: clamp(36px, 4.4vw, 62px);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+.hero-description {
+  max-width: 510px;
+  font-size: 17px;
+  line-height: 1.75;
+}
+.hero-whatsapp {
+  display: inline-flex;
+  margin-top: 20px;
+  gap: 8px;
+  align-items: center;
+}
+.hero .orbit,
+.hero .visual-dots {
+  opacity: 0.25;
+}
+.tech-strip .container {
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.nav-links a[aria-current='location'] {
+  color: #d1baff;
+  text-decoration: underline;
+  text-underline-offset: 7px;
+}
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+.client-card,
+.testimonial-card {
+  margin: 0;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #111019;
+}
+.client-card h3 {
+  margin: 0 0 12px;
+  font-size: 19px;
+}
+.client-card p,
+.faq-list p {
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+.service-card,
+.project-card {
+  border-radius: 16px;
+}
+.service-card:hover,
+.client-card:hover {
+  border-color: #66527f;
+  background: #17131f;
+}
+.service-card p,
+.project-content > p,
+.project-summary p,
+.case-grid p,
+.process-grid p {
+  font-size: 14px;
+  line-height: 1.75;
+}
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: 20px;
+}
+.project-links a {
+  font-size: 13px;
+}
+.project-content {
+  display: flex;
+  flex-direction: column;
+}
+.project-content .case-link {
+  margin-top: 24px;
+}
+.project-screenshot.mobile img {
+  aspect-ratio: 780 / 1740;
+  object-fit: contain;
+}
+.screenshot-gallery img {
+  display: block;
+  aspect-ratio: 780 / 1740;
+  object-fit: contain;
+  background: white;
+}
+.process-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.faq-section {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 64px;
+}
+.faq-list details {
+  border-bottom: 1px solid var(--line);
+  padding: 22px 0;
+}
+.faq-list summary {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.6;
+  padding-right: 16px;
+}
+.faq-list details[open] summary {
+  color: #cbb5ff;
+}
+.case-heading {
+  padding-top: 28px;
+  max-width: 760px;
+}
+.case-heading .button {
+  margin-top: 16px;
+}
+.case-grid {
+  align-items: start;
+}
+.testimonial-person img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+.footer {
+  padding-bottom: 100px;
+}
+.floating-contact {
+  bottom: max(18px, env(safe-area-inset-bottom));
+  right: 18px;
+}
+body:has(#contact:focus-within) .floating-contact {
+  visibility: hidden;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .section.reveal-ready {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s ease;
+  }
+  .section.reveal-ready.revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 1000px) {
+  .client-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .process-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .faq-section {
+    gap: 32px;
+  }
+}
+@media (max-width: 600px) {
+  .client-grid,
+  .faq-section {
+    grid-template-columns: 1fr;
+  }
+  .client-card {
+    padding: 24px;
+  }
+  .process-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .process-grid article {
+    text-align: left;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    column-gap: 18px;
+  }
+  .process-grid .step-icon {
+    grid-row: span 2;
+    margin: 0;
+  }
+  .process-grid h3 {
+    margin: 0;
+  }
+  .process-grid p {
+    margin: 6px 0 0;
+  }
+  .process-grid article::after {
+    display: none;
+  }
+  .hero-description {
+    font-size: 16px;
+  }
+  .hero-actions {
+    flex-wrap: wrap;
+  }
+  .nav-links.open {
+    max-height: calc(100dvh - 86px);
+    overflow-y: auto;
+  }
+  .faq-list summary {
+    font-size: 15px;
+  }
+}

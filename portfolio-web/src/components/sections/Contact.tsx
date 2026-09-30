@@ -88,7 +88,7 @@ export function Contact() {
             <span /> LET’S CREATE SOMETHING GREAT
           </div>
           <h2>
-            Have an App Idea?
+            Have a mobile app idea?
             <br />
             <span>Let’s Build It.</span>
           </h2>
