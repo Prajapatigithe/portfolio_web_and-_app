@@ -51,7 +51,7 @@ export default function ProjectDetail() {
           </p>
         )}
       </div>
-      {project.source && (
+      {project.source && project.sourceNote && (
         <p className="section-note source-note">
           {project.sourceNote}{' '}
           <a href={project.source} target="_blank" rel="noopener noreferrer">

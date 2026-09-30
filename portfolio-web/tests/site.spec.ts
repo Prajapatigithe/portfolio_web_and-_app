@@ -113,7 +113,7 @@ test('project previews use supplied references and mobile screenshots', async ({
   page,
 }) => {
   await page.goto('/#projects');
-  await expect(page.locator('.project-card img')).toHaveCount(2);
+  await expect(page.locator('.project-card img')).toHaveCount(3);
   for (const image of await page.locator('.project-card img').all())
     await image.evaluate((img: HTMLImageElement) => img.decode());
   await expect(

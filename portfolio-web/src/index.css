@@ -1936,12 +1936,16 @@ summary {
   width: 100%;
   height: auto;
 }
+.project-visual.mobile {
+  height: 440px;
+}
 .project-visual.mobile .project-preview {
-  align-items: start;
+  padding: 46px 16px 38px;
+  align-items: center;
 }
 .project-visual.mobile .project-screenshot {
-  transform: rotate(7deg);
-  width: 210px;
+  transform: none;
+  width: 154px;
 }
 .project-source-link {
   display: inline-flex;
@@ -1968,7 +1972,7 @@ summary {
   max-width: 800px;
 }
 .case-banner.mobile .project-screenshot {
-  width: 280px;
+  width: min(280px, 100%);
 }
 .source-note {
   margin-top: -20px;

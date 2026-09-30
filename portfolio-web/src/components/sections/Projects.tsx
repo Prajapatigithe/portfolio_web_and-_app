@@ -38,7 +38,7 @@ export function Projects() {
               <span className="concept-label">
                 {project.image
                   ? project.imageType === 'mobile'
-                    ? 'Live website · mobile view'
+                    ? 'Mobile preview'
                     : 'Published project preview'
                   : 'Illustrative interface'}
               </span>
@@ -89,10 +89,6 @@ export function Projects() {
           </article>
         ))}
       </div>
-      <p className="section-note">
-        AchiDeal previews show the live mobile website. NewsTapri uses its
-        published project image. Khajanchi’s interface remains illustrative.
-      </p>
     </section>
   );
 }
